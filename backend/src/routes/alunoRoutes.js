@@ -1,6 +1,9 @@
 import { Router } from "express";
 
-import { painelAluno } from "../controllers/alunoController.js";
+import {
+  painelAluno,
+  consultarPresencaHoje,
+} from "../controllers/alunoController.js";
 
 import {
   autenticar,
@@ -14,6 +17,13 @@ router.get(
   autenticar,
   autorizarPerfis("ALUNO"),
   painelAluno
+);
+
+router.get(
+  "/presenca-hoje",
+  autenticar,
+  autorizarPerfis("ALUNO"),
+  consultarPresencaHoje
 );
 
 export default router;
