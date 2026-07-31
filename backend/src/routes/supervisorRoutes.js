@@ -4,6 +4,7 @@ import {
   painelSupervisor,
   consultarResumoHoje,
   listarAlunosHoje,
+  registrarPresencaManual,
 } from "../controllers/supervisorController.js";
 
 import {
@@ -34,4 +35,10 @@ router.get(
   listarAlunosHoje
 );
 
+router.post(
+  "/presencas-manuais",
+  autenticar,
+  autorizarPerfis("SUPERVISOR"),
+  registrarPresencaManual
+);
 export default router;
