@@ -1,10 +1,19 @@
+import "dotenv/config";
+
 import express from "express";
+import cors from "cors";
 
 import authRoutes from "./routes/authRoutes.js";
 import alunoRoutes from "./routes/alunoRoutes.js";
 import supervisorRoutes from "./routes/supervisorRoutes.js";
 
 const app = express();
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+  })
+);
 
 app.use(express.json());
 
