@@ -10,26 +10,28 @@ export function painelSupervisor(request, response) {
 export async function consultarResumoHoje(request, response) {
   try {
     const resultado = await pool.query(`
-      SELECT
-        COUNT(alunos.id)::INTEGER AS total_alunos,
+  SELECT
+    CURRENT_DATE::TEXT AS data,
 
-        COUNT(presencas.id)::INTEGER AS registraram_hoje,
+    COUNT(alunos.id)::INTEGER AS total_alunos,
 
-        (
-          COUNT(alunos.id) - COUNT(presencas.id)
-        )::INTEGER AS nao_registraram_hoje
+    COUNT(presencas.id)::INTEGER AS registraram_hoje,
 
-      FROM alunos
+    (
+      COUNT(alunos.id) - COUNT(presencas.id)
+    )::INTEGER AS nao_registraram_hoje
 
-      INNER JOIN usuarios
-        ON usuarios.id = alunos.usuario_id
+  FROM alunos
 
-      LEFT JOIN presencas
-        ON presencas.aluno_id = alunos.id
-        AND presencas.data = CURRENT_DATE
+  INNER JOIN usuarios
+    ON usuarios.id = alunos.usuario_id
 
-      WHERE usuarios.ativo = TRUE;
-    `);
+  LEFT JOIN presencas
+    ON presencas.aluno_id = alunos.id
+    AND presencas.data = CURRENT_DATE
+
+  WHERE usuarios.ativo = TRUE;
+`);
 
     const resumo = resultado.rows[0];
 
@@ -45,17 +47,20 @@ export async function consultarResumoHoje(request, response) {
   } catch (erro) {
     console.error("Erro ao consultar resumo do dia:", erro);
 
-    return response.status(500).json({
-      mensagem: "Erro interno do servidor.",
+    return response.status(200).json({
+      data: resumo.data,
+      resumo: {
+        totalAlunos: resumo.total_alunos,
+        registraramHoje: resumo.registraram_hoje,
+        naoRegistraramHoje: resumo.nao_registraram_hoje,
+      },
     });
   }
 }
 
 export async function listarAlunosHoje(request, response) {
   const busca =
-    typeof request.query.busca === "string"
-      ? request.query.busca
-      : "";
+    typeof request.query.busca === "string" ? request.query.busca : "";
 
   try {
     const dataResultado = await pool.query(`
@@ -104,7 +109,7 @@ export async function listarAlunosHoje(request, response) {
           END,
           usuarios.nome ASC;
       `,
-      [busca, `%${busca}%`]
+      [busca, `%${busca}%`],
     );
 
     const alunos = alunosResultado.rows.map((aluno) => ({
@@ -144,10 +149,7 @@ export async function registrarPresencaManual(request, response) {
     });
   }
 
-  if (
-    typeof justificativa !== "string" ||
-    justificativa.trim() === ""
-  ) {
+  if (typeof justificativa !== "string" || justificativa.trim() === "") {
     return response.status(400).json({
       mensagem: "A justificativa é obrigatória.",
     });
@@ -169,7 +171,7 @@ export async function registrarPresencaManual(request, response) {
         WHERE alunos.id = $1
         LIMIT 1;
       `,
-      [alunoIdNumerico]
+      [alunoIdNumerico],
     );
 
     if (alunoResultado.rows.length === 0) {
@@ -194,7 +196,7 @@ export async function registrarPresencaManual(request, response) {
           AND data = CURRENT_DATE
         LIMIT 1;
       `,
-      [alunoIdNumerico]
+      [alunoIdNumerico],
     );
 
     if (presencaExistente.rows.length > 0) {
@@ -223,11 +225,7 @@ export async function registrarPresencaManual(request, response) {
           registrado_por,
           criado_em;
       `,
-      [
-        alunoIdNumerico,
-        justificativa.trim(),
-        request.usuario.id,
-      ]
+      [alunoIdNumerico, justificativa.trim(), request.usuario.id],
     );
 
     const presenca = registroResultado.rows[0];
@@ -250,10 +248,7 @@ export async function registrarPresencaManual(request, response) {
       },
     });
   } catch (erro) {
-    if (
-      erro.code === "23505" &&
-      erro.constraint === "presenca_unica_por_dia"
-    ) {
+    if (erro.code === "23505" && erro.constraint === "presenca_unica_por_dia") {
       return response.status(409).json({
         mensagem: "O aluno já possui uma presença registrada hoje.",
       });
@@ -277,10 +272,7 @@ export async function corrigirPresenca(request, response) {
     });
   }
 
-  if (
-    typeof justificativa !== "string" ||
-    justificativa.trim() === ""
-  ) {
+  if (typeof justificativa !== "string" || justificativa.trim() === "") {
     return response.status(400).json({
       mensagem: "A justificativa é obrigatória.",
     });
@@ -292,9 +284,7 @@ export async function corrigirPresenca(request, response) {
     });
   }
 
-  const horarioValido = /^([01]\d|2[0-3]):([0-5]\d)$/.test(
-    horario.trim()
-  );
+  const horarioValido = /^([01]\d|2[0-3]):([0-5]\d)$/.test(horario.trim());
 
   if (!horarioValido) {
     return response.status(400).json({
@@ -327,12 +317,7 @@ export async function corrigirPresenca(request, response) {
           criado_em,
           atualizado_em;
       `,
-      [
-        horario.trim(),
-        justificativa.trim(),
-        request.usuario.id,
-        presencaId,
-      ]
+      [horario.trim(), justificativa.trim(), request.usuario.id, presencaId],
     );
 
     if (resultado.rows.length === 0) {
@@ -445,14 +430,11 @@ export async function exportarRelatorioHoje(request, response) {
 
     const nomeArquivo = `presencas-${dataAtual}.csv`;
 
-    response.setHeader(
-      "Content-Type",
-      "text/csv; charset=utf-8"
-    );
+    response.setHeader("Content-Type", "text/csv; charset=utf-8");
 
     response.setHeader(
       "Content-Disposition",
-      `attachment; filename="${nomeArquivo}"`
+      `attachment; filename="${nomeArquivo}"`,
     );
 
     return response.status(200).send(csv);
