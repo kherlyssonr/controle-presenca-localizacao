@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
   painelAluno,
   consultarPresencaHoje,
+  registrarPresenca,
 } from "../controllers/alunoController.js";
 
 import {
@@ -24,6 +25,13 @@ router.get(
   autenticar,
   autorizarPerfis("ALUNO"),
   consultarPresencaHoje
+);
+
+router.post(
+  "/presencas",
+  autenticar,
+  autorizarPerfis("ALUNO"),
+  registrarPresenca
 );
 
 export default router;
