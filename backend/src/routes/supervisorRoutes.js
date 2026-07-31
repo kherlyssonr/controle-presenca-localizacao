@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
   painelSupervisor,
   consultarResumoHoje,
+  listarAlunosHoje,
 } from "../controllers/supervisorController.js";
 
 import {
@@ -24,6 +25,13 @@ router.get(
   autenticar,
   autorizarPerfis("SUPERVISOR"),
   consultarResumoHoje
+);
+
+router.get(
+  "/alunos-hoje",
+  autenticar,
+  autorizarPerfis("SUPERVISOR"),
+  listarAlunosHoje
 );
 
 export default router;

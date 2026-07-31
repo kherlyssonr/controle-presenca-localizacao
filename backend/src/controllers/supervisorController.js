@@ -50,3 +50,84 @@ export async function consultarResumoHoje(request, response) {
     });
   }
 }
+
+export async function listarAlunosHoje(request, response) {
+  const busca =
+    typeof request.query.busca === "string"
+      ? request.query.busca
+      : "";
+
+  try {
+    const dataResultado = await pool.query(`
+      SELECT CURRENT_DATE::TEXT AS data;
+    `);
+
+    const alunosResultado = await pool.query(
+      `
+        SELECT
+          alunos.id AS aluno_id,
+          usuarios.nome,
+          usuarios.email,
+          alunos.matricula,
+
+          presencas.id AS presenca_id,
+          presencas.horario,
+          presencas.tipo_registro,
+
+          CASE
+            WHEN presencas.id IS NULL
+              THEN 'Não registrou'
+            ELSE 'Registrou'
+          END AS status
+
+        FROM alunos
+
+        INNER JOIN usuarios
+          ON usuarios.id = alunos.usuario_id
+
+        LEFT JOIN presencas
+          ON presencas.aluno_id = alunos.id
+          AND presencas.data = CURRENT_DATE
+
+        WHERE usuarios.ativo = TRUE
+
+          AND (
+            $1 = ''
+            OR usuarios.nome ILIKE $2
+            OR alunos.matricula ILIKE $2
+          )
+
+        ORDER BY
+          CASE
+            WHEN presencas.id IS NULL THEN 1
+            ELSE 0
+          END,
+          usuarios.nome ASC;
+      `,
+      [busca, `%${busca}%`]
+    );
+
+    const alunos = alunosResultado.rows.map((aluno) => ({
+      id: aluno.aluno_id,
+      nome: aluno.nome,
+      email: aluno.email,
+      matricula: aluno.matricula,
+      horario: aluno.horario,
+      status: aluno.status,
+      tipoRegistro: aluno.tipo_registro,
+    }));
+
+    return response.status(200).json({
+      data: dataResultado.rows[0].data,
+      quantidade: alunos.length,
+      busca,
+      alunos,
+    });
+  } catch (erro) {
+    console.error("Erro ao listar alunos do dia:", erro);
+
+    return response.status(500).json({
+      mensagem: "Erro interno do servidor.",
+    });
+  }
+}
