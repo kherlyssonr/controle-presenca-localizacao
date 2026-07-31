@@ -1,5 +1,5 @@
 import pool from "../database/connection.js";
-
+import { gerarCsv } from "../utils/gerarCsv.js";
 export function painelSupervisor(request, response) {
   return response.status(200).json({
     mensagem: "Acesso permitido à área do supervisor.",
@@ -359,6 +359,105 @@ export async function corrigirPresenca(request, response) {
     });
   } catch (erro) {
     console.error("Erro ao corrigir presença:", erro);
+
+    return response.status(500).json({
+      mensagem: "Erro interno do servidor.",
+    });
+  }
+}
+
+export async function exportarRelatorioHoje(request, response) {
+  try {
+    const dataResultado = await pool.query(`
+      SELECT CURRENT_DATE::TEXT AS data;
+    `);
+
+    const dataAtual = dataResultado.rows[0].data;
+
+    const resultado = await pool.query(`
+      SELECT
+        usuarios.nome,
+        alunos.matricula,
+
+        CASE
+          WHEN presencas.id IS NULL
+            THEN ''
+          ELSE presencas.data::TEXT
+        END AS data,
+
+        CASE
+          WHEN presencas.id IS NULL
+            THEN ''
+          ELSE TO_CHAR(presencas.horario, 'HH24:MI:SS')
+        END AS horario,
+
+        CASE
+          WHEN presencas.id IS NULL
+            THEN 'Não registrou'
+          ELSE 'Registrou'
+        END AS status,
+
+        COALESCE(
+          presencas.tipo_registro,
+          ''
+        ) AS tipo_registro,
+
+        COALESCE(
+          presencas.justificativa,
+          ''
+        ) AS justificativa
+
+      FROM alunos
+
+      INNER JOIN usuarios
+        ON usuarios.id = alunos.usuario_id
+
+      LEFT JOIN presencas
+        ON presencas.aluno_id = alunos.id
+        AND presencas.data = CURRENT_DATE
+
+      WHERE usuarios.ativo = TRUE
+
+      ORDER BY usuarios.nome ASC;
+    `);
+
+    const cabecalhos = [
+      "Nome",
+      "Matrícula",
+      "Data",
+      "Horário",
+      "Status",
+      "Tipo de registro",
+      "Justificativa",
+    ];
+
+    const linhas = resultado.rows.map((registro) => [
+      registro.nome,
+      registro.matricula,
+      registro.data,
+      registro.horario,
+      registro.status,
+      registro.tipo_registro,
+      registro.justificativa,
+    ]);
+
+    const csv = gerarCsv(cabecalhos, linhas);
+
+    const nomeArquivo = `presencas-${dataAtual}.csv`;
+
+    response.setHeader(
+      "Content-Type",
+      "text/csv; charset=utf-8"
+    );
+
+    response.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${nomeArquivo}"`
+    );
+
+    return response.status(200).send(csv);
+  } catch (erro) {
+    console.error("Erro ao exportar relatório CSV:", erro);
 
     return response.status(500).json({
       mensagem: "Erro interno do servidor.",

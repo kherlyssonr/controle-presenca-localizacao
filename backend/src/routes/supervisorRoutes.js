@@ -6,6 +6,7 @@ import {
   listarAlunosHoje,
   registrarPresencaManual,
   corrigirPresenca,
+  exportarRelatorioHoje,
 } from "../controllers/supervisorController.js";
 
 import {
@@ -34,6 +35,13 @@ router.get(
   autenticar,
   autorizarPerfis("SUPERVISOR"),
   listarAlunosHoje
+); 
+
+router.get(
+  "/relatorio-hoje.csv",
+  autenticar,
+  autorizarPerfis("SUPERVISOR"),
+  exportarRelatorioHoje
 );
 
 router.post(
