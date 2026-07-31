@@ -1,6 +1,9 @@
 import { Router } from "express";
 
-import { painelSupervisor } from "../controllers/supervisorController.js";
+import {
+  painelSupervisor,
+  consultarResumoHoje,
+} from "../controllers/supervisorController.js";
 
 import {
   autenticar,
@@ -14,6 +17,13 @@ router.get(
   autenticar,
   autorizarPerfis("SUPERVISOR"),
   painelSupervisor
+);
+
+router.get(
+  "/resumo-hoje",
+  autenticar,
+  autorizarPerfis("SUPERVISOR"),
+  consultarResumoHoje
 );
 
 export default router;
