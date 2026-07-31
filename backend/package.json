@@ -5,12 +5,16 @@
   "type": "module",
   "main": "src/server.js",
   "scripts": {
-    "dev": "node ./src/server.js"
-  },
+  "dev": "node ./src/server.js",
+  "db:test": "node ./src/database/testConnection.js",
+  "db:seed": "node ./src/database/seed.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.2.1"
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.22.0"
   }
 }
