@@ -109,6 +109,7 @@ export async function listarAlunosHoje(request, response) {
 
     const alunos = alunosResultado.rows.map((aluno) => ({
       id: aluno.aluno_id,
+      presencaId: aluno.presenca_id,
       nome: aluno.nome,
       email: aluno.email,
       matricula: aluno.matricula,
@@ -259,6 +260,105 @@ export async function registrarPresencaManual(request, response) {
     }
 
     console.error("Erro ao registrar presença manual:", erro);
+
+    return response.status(500).json({
+      mensagem: "Erro interno do servidor.",
+    });
+  }
+}
+
+export async function corrigirPresenca(request, response) {
+  const presencaId = Number(request.params.presencaId);
+  const { horario, justificativa } = request.body;
+
+  if (!Number.isInteger(presencaId) || presencaId <= 0) {
+    return response.status(400).json({
+      mensagem: "O ID da presença é inválido.",
+    });
+  }
+
+  if (
+    typeof justificativa !== "string" ||
+    justificativa.trim() === ""
+  ) {
+    return response.status(400).json({
+      mensagem: "A justificativa é obrigatória.",
+    });
+  }
+
+  if (typeof horario !== "string" || horario.trim() === "") {
+    return response.status(400).json({
+      mensagem: "O novo horário é obrigatório.",
+    });
+  }
+
+  const horarioValido = /^([01]\d|2[0-3]):([0-5]\d)$/.test(
+    horario.trim()
+  );
+
+  if (!horarioValido) {
+    return response.status(400).json({
+      mensagem: "Informe o horário no formato HH:MM.",
+    });
+  }
+
+  try {
+    const resultado = await pool.query(
+      `
+        UPDATE presencas
+
+        SET
+          horario = $1::TIME,
+          tipo_registro = 'MANUAL',
+          justificativa = $2,
+          registrado_por = $3,
+          atualizado_em = CURRENT_TIMESTAMP
+
+        WHERE id = $4
+
+        RETURNING
+          id,
+          aluno_id,
+          data,
+          horario,
+          tipo_registro,
+          justificativa,
+          registrado_por,
+          criado_em,
+          atualizado_em;
+      `,
+      [
+        horario.trim(),
+        justificativa.trim(),
+        request.usuario.id,
+        presencaId,
+      ]
+    );
+
+    if (resultado.rows.length === 0) {
+      return response.status(404).json({
+        mensagem: "Presença não encontrada.",
+      });
+    }
+
+    const presenca = resultado.rows[0];
+
+    return response.status(200).json({
+      mensagem: "Presença corrigida com sucesso.",
+      presenca: {
+        id: presenca.id,
+        alunoId: presenca.aluno_id,
+        data: presenca.data,
+        horario: presenca.horario,
+        tipoRegistro: presenca.tipo_registro,
+        justificativa: presenca.justificativa,
+        registradoPor: presenca.registrado_por,
+        criadoEm: presenca.criado_em,
+        atualizadoEm: presenca.atualizado_em,
+      },
+    });
+  } catch (erro) {
+    console.error("Erro ao corrigir presença:", erro);
 
     return response.status(500).json({
       mensagem: "Erro interno do servidor.",

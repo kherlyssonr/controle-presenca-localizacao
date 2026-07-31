@@ -5,6 +5,7 @@ import {
   consultarResumoHoje,
   listarAlunosHoje,
   registrarPresencaManual,
+  corrigirPresenca,
 } from "../controllers/supervisorController.js";
 
 import {
@@ -40,5 +41,12 @@ router.post(
   autenticar,
   autorizarPerfis("SUPERVISOR"),
   registrarPresencaManual
+);
+
+router.patch(
+  "/presencas/:presencaId",
+  autenticar,
+  autorizarPerfis("SUPERVISOR"),
+  corrigirPresenca
 );
 export default router;
