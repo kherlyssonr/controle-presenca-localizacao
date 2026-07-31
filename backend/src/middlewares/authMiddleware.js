@@ -34,4 +34,26 @@ export function autenticar(request, response, next) {
       mensagem: "Token inválido ou expirado.",
     });
   }
+} 
+
+export function autorizarPerfis(...perfisPermitidos) {
+  return function (request, response, next) {
+    if (!request.usuario) {
+      return response.status(401).json({
+        mensagem: "Usuário não autenticado.",
+      });
+    }
+
+    const perfilPermitido = perfisPermitidos.includes(
+      request.usuario.tipo
+    );
+
+    if (!perfilPermitido) {
+      return response.status(403).json({
+        mensagem: "Você não possui permissão para acessar esta área.",
+      });
+    }
+
+    return next();
+  };
 }
