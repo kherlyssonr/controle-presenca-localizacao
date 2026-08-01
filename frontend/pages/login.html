@@ -3,14 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login</title>
+    <title>Login | Sistema de Presença</title>
 </head>
 <body>
     <main class="login">
         <section class="login_card">
             <div class="login_header">
                 <img src="../assets/images/favicon-128.png" alt="logo presenca">
+                <h1 class="login_title">Sistema de Presença</h1>
+                <p class="login_subtitle">Faça login para continuar</p>
             </div>
+            <form class="login_form">
+                <div class="form_group">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" placeholder="Digite seu email" required autocomplete="email">
+                </div>
+                <div class="form_group">
+                    <label for="password">Senha</label>
+                    <input id="password" type="password" placeholder="**********" required autocomplete="password">
+                </div>
+                <button type="submit" class="login_button">Entrar</button>
+                <p>Não possui uma conta?</p>
+                <p class="login_register">
+                    <a href="#">Criar conta</a>
+                </p>
+            </form>
         </section>
     </main>
 </body>
