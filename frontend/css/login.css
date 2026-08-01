@@ -85,3 +85,23 @@
 .login_button:active {
     transform: scale(.98);
 }
+
+.login_register {
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+}
+
+.login_register a {
+    color: var(--color-primary);
+    font-weight: var(--font-weigth-semibold);
+    text-decoration: none;
+}
+
+.login_register a:hover {
+    text-decoration: underline;
+}
