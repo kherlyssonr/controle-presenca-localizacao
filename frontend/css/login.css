@@ -50,7 +50,7 @@
     background-color: var(--color-surface-light);
     color: var(--color-title);
 
-    border: 1px solid transparent;
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
 
     transition: var(--transition-default);
