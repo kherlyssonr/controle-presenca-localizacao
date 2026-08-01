@@ -52,23 +52,23 @@
     font-weight: 500;
 }
 
-.form_group input {
+/* .form_group input {
     width: 100%;
     height: var(--input-height);
     padding: 0 var(--spacing-md);
     color: var(--color-title);
     border: 1px solid var(--color-border);
     transition: var(--transition-default);
-}
+} */
 
 .form_group input::placeholder {
     color: var(--color-placeholder);
 }
 
-.form_group input:focus {
+/* .form_group input:focus {
     border-color: var(--color-primary);
     box-shadow: var(--shadow-primary);
-}
+} */
 
 .login_button {
     width: 100%;
