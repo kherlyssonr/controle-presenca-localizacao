@@ -1,128 +1,74 @@
 :root {
 
-    /* =====================================================
-       COLORS
-    ===================================================== */
+    /* ===========================
+       CORES
+    =========================== */
 
-    /* Backgrounds */
     --color-background: #040B1C;
-    --color-surface: #0D1830;
     --color-surface-light: #132140;
     --color-card: #101C35;
 
-    /* Primary */
     --color-primary: #12F7A0;
     --color-primary-hover: #2DFFC0;
-    --color-primary-active: #00D98A;
 
-    /* Secondary */
-    --color-secondary: #3B82F6;
-    --color-secondary-hover: #60A5FA;
-
-    /* Status */
-    --color-success: #22C55E;
-    --color-warning: #FACC15;
     --color-error: #EF4444;
-    --color-info: #38BDF8;
 
-    /* Text */
     --color-title: #FFFFFF;
     --color-text: #E5E7EB;
     --color-text-light: #A7B0BE;
     --color-placeholder: #6B7280;
 
-    /* Borders */
     --color-border: rgba(255,255,255,.08);
-    --color-border-focus: #12F7A0;
 
-    /* Shadows */
-    --shadow-sm: 0 4px 12px rgba(0,0,0,.20);
+    /* ===========================
+       SOMBRAS
+    =========================== */
+
     --shadow-md: 0 10px 30px rgba(0,0,0,.35);
-    --shadow-lg: 0 20px 60px rgba(0,0,0,.50);
-
-    --shadow-primary: 0 0 20px rgba(18,247,160,.25);
     --shadow-primary-hover: 0 0 30px rgba(18,247,160,.45);
 
-    /* =====================================================
-       TYPOGRAPHY
-    ===================================================== */
+    /* ===========================
+       TIPOGRAFIA
+    =========================== */
 
-    --font-primary: "Poppins", sans-serif;
+    --font-primary: "Inter", sans-serif;
 
-    --font-size-xs: .75rem;
     --font-size-sm: .875rem;
     --font-size-md: 1rem;
-    --font-size-lg: 1.125rem;
-    --font-size-xl: 1.5rem;
     --font-size-2xl: 2rem;
-    --font-size-3xl: 3rem;
 
-    --font-weight-light: 300;
-    --font-weight-regular: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
 
-    --line-height-default: 1.5;
-    --line-height-title: 1.2;
+    /* ===========================
+       ESPAÇAMENTOS
+    =========================== */
 
-    /* =====================================================
-       SPACING
-    ===================================================== */
-
-    --spacing-xs: .25rem;
     --spacing-sm: .5rem;
     --spacing-md: 1rem;
     --spacing-lg: 1.5rem;
-    --spacing-xl: 2rem;
     --spacing-2xl: 3rem;
-    --spacing-3xl: 4rem;
 
-    /* =====================================================
+    /* ===========================
        BORDER RADIUS
-    ===================================================== */
+    =========================== */
 
-    --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 16px;
-    --radius-xl: 24px;
-    --radius-full: 999px;
 
-    /* =====================================================
-       TRANSITIONS
-    ===================================================== */
+    /* ===========================
+       TRANSIÇÕES
+    =========================== */
 
-    --transition-fast: .2s ease;
     --transition-default: .3s ease;
-    --transition-slow: .5s ease;
 
-    /* =====================================================
-       INPUTS
-    ===================================================== */
+    /* ===========================
+       COMPONENTES
+    =========================== */
 
     --input-height: 56px;
-    --input-padding: 0 20px;
-
-    /* =====================================================
-       BUTTONS
-    ===================================================== */
-
     --button-height: 56px;
 
-    /* =====================================================
-       LAYOUT
-    ===================================================== */
-
-    --container-width: 1280px;
     --card-width: 480px;
-
-    /* =====================================================
-       Z-INDEX
-    ===================================================== */
-
-    --z-dropdown: 100;
-    --z-header: 500;
-    --z-modal: 1000;
-    --z-toast: 1500;
-    --z-loader: 2000;
 }
