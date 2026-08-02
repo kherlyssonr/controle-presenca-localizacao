@@ -152,7 +152,7 @@
 }
 
 .login-error {
-    /* display: none; */
+    display: none;
     padding: 0.875rem 1rem;
     border-radius: var(--radius-md);
     background-color: rgba(239, 68, 68, 0.12);
