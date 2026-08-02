@@ -62,8 +62,6 @@
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     color: var(--color-title);
-    font-size: .9rem;
-    font-weight: 500;
 }
 
 .form_group input::placeholder {
@@ -132,7 +130,7 @@
     background: var(--color-surface-light);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    transition: var(--transition-default);
+    transition: boder-color 0.2s ease box-shadow .2s ease;
 }
 
 .input-wrapper:hover {
@@ -141,7 +139,7 @@
 
 .input-wrapper:focus-within {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 4px rgba(36, 232, 160, .15);
+    box-shadow: 0 0 0 3px rgba(36,232,160,.12);
 }
 
 .input-wrapper input {
@@ -153,7 +151,6 @@
     background: transparent;
     color: var(--color-title);
     font: inherit;
-    cursor: pointer;
 }
 
 .input-wrapper input::placeholder {
