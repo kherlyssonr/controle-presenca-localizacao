@@ -379,7 +379,7 @@ async function marcarPresenca() {
 
 function sair() {
   sessionStorage.clear();
-  window.location.replace("/");
+  window.location.replace("/login-teste.html");
 }
 
 async function iniciarPagina() {

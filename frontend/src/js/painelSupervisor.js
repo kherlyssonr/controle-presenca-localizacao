@@ -99,7 +99,7 @@ let temporizadorBusca = null;
 
 function redirecionarParaLogin() {
   sessionStorage.clear();
-  window.location.replace("/");
+  window.location.replace("/login-teste.html");
 }
 
 function formatarData(valor) {
@@ -725,7 +725,7 @@ async function exportarCsv() {
 
 function sair() {
   sessionStorage.clear();
-  window.location.replace("/");
+  window.location.replace("/login-teste.html");
 }
 
 async function iniciarPagina() {

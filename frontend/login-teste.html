@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="description" content="Login temporário do sistema de controle de presença." />
+
+  <title>Login de teste | Presença Inteligente</title>
+
+  <link rel="stylesheet" href="src/login-teste.css" />
+</head>
+
+<body>
+  <main class="pagina-login">
+    <section class="apresentacao">
+      <a class="logo" href="/login-teste.html" aria-label="Presença Inteligente">
+        <span class="logo__icone">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+            <path d="M12 21C12 21 19 15.7 19 9.5C19 5.36 15.87 2 12 2C8.13 2 5 5.36 5 9.5C5 15.7 12 21 12 21Z" stroke="currentColor" stroke-width="2" />
+
+            <path d="M9 9.5L11 11.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+
+        <span class="logo__texto">
+          <strong>Presença</strong>
+          <span>Inteligente</span>
+        </span>
+      </a>
+
+      <div class="apresentacao__conteudo">
+        <span class="etiqueta">
+          Sistema em desenvolvimento
+        </span>
+
+        <h1>
+          Controle de presença com
+          <span>localização inteligente.</span>
+        </h1>
+
+        <p>
+          Registre presenças com segurança e acompanhe
+          os registros do dia em uma plataforma simples
+          e responsiva.
+        </p>
+
+        <div class="recursos">
+          <div class="recurso">
+            <span class="recurso__icone">✓</span>
+
+            <div>
+              <strong>Registro por localização</strong>
+              <p>Validação de distância e precisão.</p>
+            </div>
+          </div>
+
+          <div class="recurso">
+            <span class="recurso__icone">✓</span>
+
+            <div>
+              <strong>Painel do supervisor</strong>
+              <p>Acompanhamento dos registros do dia.</p>
+            </div>
+          </div>
+
+          <div class="recurso">
+            <span class="recurso__icone">✓</span>
+
+            <div>
+              <strong>Dados protegidos</strong>
+              <p>Autenticação com token e senha criptografada.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="aviso-desenvolvimento">
+        Página temporária utilizada apenas para testes.
+      </p>
+    </section>
+
+    <section class="area-formulario">
+      <div class="cartao-login">
+        <header class="cartao-login__cabecalho">
+          <span class="icone-login">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" />
+
+              <path d="M4 21C4 16.58 7.58 13 12 13C16.42 13 20 16.58 20 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </span>
+
+          <p>Acesso ao sistema</p>
+          <h2>Entre na sua conta</h2>
+
+          <span>
+            Informe suas credenciais para continuar.
+          </span>
+        </header>
+
+        <form id="form-login" class="form-login">
+          <div class="campo-formulario">
+            <label for="email">E-mail</label>
+
+            <div class="campo-com-icone">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2" />
+
+                <path d="M4 7L12 13L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+
+              <input id="email" name="email" type="email" placeholder="seuemail@exemplo.com" autocomplete="email" required />
+            </div>
+          </div>
+
+          <div class="campo-formulario">
+            <label for="senha">Senha</label>
+
+            <div class="campo-com-icone">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <rect x="5" y="10" width="14" height="11" rx="2" stroke="currentColor" stroke-width="2" />
+
+                <path d="M8 10V7C8 4.79 9.79 3 12 3C14.21 3 16 4.79 16 7V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+
+              <input id="senha" name="senha" type="password" placeholder="Digite sua senha" autocomplete="current-password" required />
+
+              <button id="botao-mostrar-senha" class="botao-mostrar-senha" type="button" aria-label="Mostrar senha" aria-pressed="false">
+                Mostrar
+              </button>
+            </div>
+          </div>
+
+          <p id="mensagem-login" class="mensagem-login" role="status" aria-live="polite"></p>
+
+          <button id="botao-entrar" class="botao-entrar" type="submit">
+            Entrar
+          </button>
+        </form>
+
+        <footer class="cartao-login__rodape">
+          <span class="indicador"></span>
+
+          <p>
+            Ambiente de testes da versão
+            <strong>v1.0.0</strong>
+          </p>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="src/js/login-teste.js"></script>
+</body>
+
+</html>
