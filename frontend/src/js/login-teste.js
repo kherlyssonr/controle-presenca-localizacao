@@ -45,12 +45,12 @@ function alterarEstadoCarregamento(carregando) {
 
 function redirecionarUsuario(usuario) {
   if (usuario.tipo === "ALUNO") {
-    window.location.replace("/aluno.html");
+    window.location.replace("/painelAluno.html");
     return;
   }
 
   if (usuario.tipo === "SUPERVISOR") {
-    window.location.replace("/supervisor.html");
+    window.location.replace("/painelSupervisor.html");
     return;
   }
 
