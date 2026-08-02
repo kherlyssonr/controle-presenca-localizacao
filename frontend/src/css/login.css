@@ -91,6 +91,11 @@
     transform: scale(.98);
 }
 
+.login_button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
 .login_register {
     text-align: center;
     font-size: var(--font-size-sm);
@@ -121,6 +126,10 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     transition: var(--transition-default);
+}
+
+.input-wrapper:hover {
+    border-color: var(--color-primary);
 }
 
 .input-wrapper:focus-within {
