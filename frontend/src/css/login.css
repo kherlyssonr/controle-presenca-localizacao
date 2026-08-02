@@ -6,6 +6,19 @@
     padding: var(--spacing-lg);
 }
 
+.login_title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-title);
+    text-align: center;
+}
+
+.login_subtitle {
+    font-size: var(--font-size-md);
+    color: var(--color-text-light);
+    text-align: center;
+}
+
 .login_card {
     width: 100%;
     max-width: var(--card-width);
@@ -26,6 +39,7 @@
 }
 
 .login_header img {
+    display: block;
     width: 80px;
     height: 80px;
     margin-bottom: var(--spacing-md);
@@ -59,11 +73,16 @@
 .login_button {
     width: 100%;
     height: var(--button-height);
-    background: var(--color-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    background-color: var(--color-primary);
     color: var(--color-background);
     border-radius: var(--radius-md);
     font-size: var(--font-size-md);
-    font-weight: var(--font-weigth-semibold);
+    font-weight: var(--font-weight-semibold);
     transition: var(--transition-default);
 }
 
@@ -94,8 +113,9 @@
 
 .login_register a {
     color: var(--color-primary);
-    font-weight: var(--font-weigth-semibold);
     text-decoration: none;
+    font-weight: var(--font-weight-semibold);
+    transition: var(--transition-default);
 }
 
 .login_register a:hover {
@@ -105,6 +125,7 @@
 .input-wrapper {
     display: flex;
     align-items: center;
+    gap: 0.5rem;
     width: 100%;
     height: var(--input-height);
     padding: 0 var(--spacing-md);
@@ -125,12 +146,14 @@
 
 .input-wrapper input {
     flex: 1;
+    width: 100%;
     height: 100%;
-    background: transparent;
     border: none;
     outline: none;
+    background: transparent;
     color: var(--color-title);
-    padding: 0 var(--spacing-md);
+    font: inherit;
+    cursor: pointer;
 }
 
 .input-wrapper input::placeholder {
