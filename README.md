@@ -2,7 +2,7 @@
 
 Sistema de controle de presença por localização desenvolvido como um MVP full stack para registrar a presença de alunos por geolocalização e permitir o acompanhamento diário por supervisores.
 
-> **Status da versão:** MVP funcional em ambiente local. A interface oficial de login está em fase de integração; durante os testes, pode ser utilizada a página temporária `login-teste.html`.
+> **Status da versão:** MVP funcional em ambiente local, com a página oficial de login integrada ao backend e redirecionamento automático por perfil.
 
 ---
 
@@ -83,6 +83,7 @@ A presença é recusada quando:
 
 ## Funcionalidades da v1.0.0
 
+- página oficial de login integrada ao backend;
 - autenticação com JWT;
 - controle de acesso por perfil;
 - senhas protegidas com hash;
@@ -156,12 +157,21 @@ controle-presenca-localizacao/
 ├── docs/
 │
 ├── frontend/
+│   ├── index.html
 │   ├── aluno.html
 │   ├── supervisor.html
-│   ├── login-teste.html
 │   ├── src/
+│   │   ├── assets/
+│   │   │   ├── icons/
+│   │   │   └── images/
 │   │   ├── css/
+│   │   │   ├── login.css
+│   │   │   ├── aluno.css
+│   │   │   └── supervisor.css
 │   │   └── js/
+│   │       ├── login.js
+│   │       ├── painelAluno.js
+│   │       └── painelSupervisor.js
 │   ├── .env.example
 │   └── package.json
 │
@@ -344,17 +354,39 @@ O frontend ficará disponível em:
 http://localhost:5173
 ```
 
-Durante a fase de testes, acesse:
-
-```text
-http://localhost:5173/login-teste.html
-```
-
-Quando o login oficial for integrado, o acesso principal deverá ser realizado por:
+Acesse a página oficial de login em:
 
 ```text
 http://localhost:5173
 ```
+
+O frontend deve ser executado pelo Vite. Não abra os arquivos diretamente pelo navegador nem utilize o Live Server para testar a integração com a API.
+
+---
+
+## Login oficial
+
+A página principal do frontend é o arquivo `frontend/index.html`. O formulário envia o e-mail e a senha para o backend pela rota:
+
+```http
+POST /auth/login
+```
+
+Quando as credenciais são válidas, o frontend:
+
+1. recebe o token JWT e os dados do usuário;
+2. salva a sessão no `sessionStorage`;
+3. identifica o perfil retornado pelo backend;
+4. redireciona o usuário para o painel correspondente.
+
+A tela também possui:
+
+- validação de campos vazios;
+- mensagens de erro e sucesso;
+- botão para mostrar ou ocultar a senha;
+- estado de carregamento durante a requisição;
+- aviso de sistema em desenvolvimento;
+- identificação do ambiente de testes da `v1.0.0`.
 
 ---
 
@@ -476,7 +508,42 @@ A versão implementa:
 - bloqueio de duplicidade no banco;
 - proteção das rotas de aluno e supervisor.
 
+Os arquivos `.env` não devem ser enviados ao repositório.
+
+O frontend não deve armazenar:
+
+- senha do banco;
+- segredo do JWT;
+- tokens privados;
+- credenciais de produção.
+
 Este é um MVP educacional e ainda deve passar por revisão de segurança antes de qualquer uso oficial em produção.
+
+---
+
+## Testes recomendados
+
+Antes de publicar a versão:
+
+- testar login de aluno;
+- testar login de supervisor;
+- testar credenciais inválidas;
+- testar campos vazios;
+- testar o botão de mostrar ou ocultar senha;
+- testar o redirecionamento correto por perfil;
+- testar usuário desativado;
+- testar localização permitida e negada;
+- testar dentro e fora do raio;
+- testar precisão inválida;
+- testar presença duplicada;
+- testar pesquisa;
+- testar presença manual na data atual;
+- testar correção de horário;
+- testar exportação CSV;
+- testar logout;
+- testar em computador e celular;
+- verificar o Console do navegador;
+- verificar os terminais do frontend e do backend.
 
 ---
 
@@ -490,4 +557,4 @@ Antes de utilizar o sistema em uma instituição real, é necessário revisar se
 
 ## Autor
 
-Desenvolvido por **Kherlysson Ryann** e **Webert Kaue**.
+Desenvolvido por **Kherlysson Ryann** e **Werbete Kaue**.
