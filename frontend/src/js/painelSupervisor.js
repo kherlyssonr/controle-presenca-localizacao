@@ -1,50 +1,31 @@
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const token = sessionStorage.getItem("token");
 
 const elementos = {
-  nomeSupervisor: document.querySelector(
-    "#nome-supervisor-menu"
-  ),
+  nomeSupervisor: document.querySelector("#nome-supervisor-menu"),
 
-  avatarSupervisor: document.querySelector(
-    "#avatar-supervisor"
-  ),
+  avatarSupervisor: document.querySelector("#avatar-supervisor"),
 
   dataPainel: document.querySelector("#data-painel"),
 
   totalAlunos: document.querySelector("#total-alunos"),
 
-  totalRegistraram: document.querySelector(
-    "#total-registraram"
-  ),
+  totalRegistraram: document.querySelector("#total-registraram"),
 
-  totalNaoRegistraram: document.querySelector(
-    "#total-nao-registraram"
-  ),
+  totalNaoRegistraram: document.querySelector("#total-nao-registraram"),
 
   campoBusca: document.querySelector("#campo-busca"),
 
-  tabelaCorpo: document.querySelector(
-    "#tabela-alunos-corpo"
-  ),
+  tabelaCorpo: document.querySelector("#tabela-alunos-corpo"),
 
-  mensagemLista: document.querySelector(
-    "#mensagem-lista"
-  ),
+  mensagemLista: document.querySelector("#mensagem-lista"),
 
-  botaoAdicionar: document.querySelector(
-    "#botao-adicionar-presenca"
-  ),
+  botaoAdicionar: document.querySelector("#botao-adicionar-presenca"),
 
-  botaoAbrirModalMenu: document.querySelector(
-    "#botao-abrir-modal-menu"
-  ),
+  botaoAbrirModalMenu: document.querySelector("#botao-abrir-modal-menu"),
 
-  botaoExportar: document.querySelector(
-    "#botao-exportar-csv"
-  ),
+  botaoExportar: document.querySelector("#botao-exportar-csv"),
 
   botaoSair: document.querySelector("#botao-sair"),
 
@@ -54,13 +35,9 @@ const elementos = {
 
   tituloModal: document.querySelector("#titulo-modal"),
 
-  botaoFecharModal: document.querySelector(
-    "#botao-fechar-modal"
-  ),
+  botaoFecharModal: document.querySelector("#botao-fechar-modal"),
 
-  botaoCancelarModal: document.querySelector(
-    "#botao-cancelar-modal"
-  ),
+  botaoCancelarModal: document.querySelector("#botao-cancelar-modal"),
 
   formulario: document.querySelector("#form-presenca"),
 
@@ -70,25 +47,15 @@ const elementos = {
 
   grupoHorario: document.querySelector("#grupo-horario"),
 
-  campoHorario: document.querySelector(
-    "#horario-presenca"
-  ),
+  campoHorario: document.querySelector("#horario-presenca"),
 
-  campoJustificativa: document.querySelector(
-    "#justificativa"
-  ),
+  campoJustificativa: document.querySelector("#justificativa"),
 
-  contadorJustificativa: document.querySelector(
-    "#contador-justificativa"
-  ),
+  contadorJustificativa: document.querySelector("#contador-justificativa"),
 
-  mensagemModal: document.querySelector(
-    "#mensagem-modal"
-  ),
+  mensagemModal: document.querySelector("#mensagem-modal"),
 
-  botaoSalvar: document.querySelector(
-    "#botao-salvar-presenca"
-  ),
+  botaoSalvar: document.querySelector("#botao-salvar-presenca"),
 };
 
 let modoModal = "ADICIONAR";
@@ -99,7 +66,7 @@ let temporizadorBusca = null;
 
 function redirecionarParaLogin() {
   sessionStorage.clear();
-  window.location.replace("/login-teste.html");
+  window.location.replace("/");
 }
 
 function formatarData(valor) {
@@ -159,9 +126,7 @@ function alterarEstadoBotao(botao, carregando, textoNormal) {
   }
 
   botao.textContent =
-    textoNormal ||
-    botao.dataset.textoOriginal ||
-    botao.textContent;
+    textoNormal || botao.dataset.textoOriginal || botao.textContent;
 }
 
 function exibirMensagemLista(texto, tipo = "") {
@@ -169,9 +134,7 @@ function exibirMensagemLista(texto, tipo = "") {
   elementos.mensagemLista.className = "mensagem-lista";
 
   if (tipo) {
-    elementos.mensagemLista.classList.add(
-      `mensagem-lista--${tipo}`
-    );
+    elementos.mensagemLista.classList.add(`mensagem-lista--${tipo}`);
   }
 }
 
@@ -185,9 +148,7 @@ function exibirMensagemModal(texto, tipo = "") {
   elementos.mensagemModal.className = "mensagem-modal";
 
   if (tipo) {
-    elementos.mensagemModal.classList.add(
-      `mensagem-modal--${tipo}`
-    );
+    elementos.mensagemModal.classList.add(`mensagem-modal--${tipo}`);
   }
 }
 
@@ -221,8 +182,7 @@ async function fazerRequisicao(caminho, opcoes = {}) {
 
   if (!resposta.ok) {
     const erro = new Error(
-      dados.mensagem ||
-        "Não foi possível concluir a operação."
+      dados.mensagem || "Não foi possível concluir a operação.",
     );
 
     erro.status = resposta.status;
@@ -242,40 +202,28 @@ async function carregarPerfil() {
     return;
   }
 
-  elementos.nomeSupervisor.textContent =
-    dados.usuario.nome;
+  elementos.nomeSupervisor.textContent = dados.usuario.nome;
 
-  elementos.avatarSupervisor.textContent =
-    dados.usuario.nome
-      .trim()
-      .charAt(0)
-      .toUpperCase();
+  elementos.avatarSupervisor.textContent = dados.usuario.nome
+    .trim()
+    .charAt(0)
+    .toUpperCase();
 
-  sessionStorage.setItem(
-    "usuario",
-    JSON.stringify(dados.usuario)
-  );
+  sessionStorage.setItem("usuario", JSON.stringify(dados.usuario));
 }
 
 async function carregarResumo() {
-  const dados = await fazerRequisicao(
-    "/supervisor/resumo-hoje"
-  );
+  const dados = await fazerRequisicao("/supervisor/resumo-hoje");
 
   dataAtualBanco = dados.data;
 
-  elementos.dataPainel.textContent = formatarData(
-    dados.data
-  );
+  elementos.dataPainel.textContent = formatarData(dados.data);
 
-  elementos.totalAlunos.textContent =
-    dados.resumo.totalAlunos;
+  elementos.totalAlunos.textContent = dados.resumo.totalAlunos;
 
-  elementos.totalRegistraram.textContent =
-    dados.resumo.registraramHoje;
+  elementos.totalRegistraram.textContent = dados.resumo.registraramHoje;
 
-  elementos.totalNaoRegistraram.textContent =
-    dados.resumo.naoRegistraramHoje;
+  elementos.totalNaoRegistraram.textContent = dados.resumo.naoRegistraramHoje;
 }
 
 function criarCelula(rotulo, conteudo) {
@@ -318,10 +266,7 @@ function criarBotaoAcao(aluno) {
     botao.classList.add("botao-corrigir");
     botao.textContent = "Corrigir";
 
-    botao.setAttribute(
-      "aria-label",
-      `Corrigir presença de ${aluno.nome}`
-    );
+    botao.setAttribute("aria-label", `Corrigir presença de ${aluno.nome}`);
 
     botao.addEventListener("click", () => {
       abrirModalCorrecao(aluno);
@@ -333,10 +278,7 @@ function criarBotaoAcao(aluno) {
   botao.classList.add("botao-adicionar");
   botao.textContent = "Adicionar";
 
-  botao.setAttribute(
-    "aria-label",
-    `Adicionar presença para ${aluno.nome}`
-  );
+  botao.setAttribute("aria-label", `Adicionar presença para ${aluno.nome}`);
 
   botao.addEventListener("click", () => {
     abrirModalAdicionar(aluno);
@@ -350,9 +292,7 @@ function renderizarAlunos(alunos) {
   limparMensagemLista();
 
   if (alunos.length === 0) {
-    exibirMensagemLista(
-      "Nenhum aluno foi encontrado."
-    );
+    exibirMensagemLista("Nenhum aluno foi encontrado.");
 
     return;
   }
@@ -360,35 +300,19 @@ function renderizarAlunos(alunos) {
   alunos.forEach((aluno) => {
     const linha = document.createElement("tr");
 
-    linha.appendChild(
-      criarCelula("Nome", aluno.nome)
-    );
+    linha.appendChild(criarCelula("Nome", aluno.nome));
+
+    linha.appendChild(criarCelula("Matrícula", aluno.matricula));
+
+    linha.appendChild(criarCelula("Horário", formatarHorario(aluno.horario)));
+
+    linha.appendChild(criarCelula("Status", criarStatus(aluno)));
 
     linha.appendChild(
-      criarCelula("Matrícula", aluno.matricula)
+      criarCelula("Tipo", formatarTipoRegistro(aluno.tipoRegistro)),
     );
 
-    linha.appendChild(
-      criarCelula(
-        "Horário",
-        formatarHorario(aluno.horario)
-      )
-    );
-
-    linha.appendChild(
-      criarCelula("Status", criarStatus(aluno))
-    );
-
-    linha.appendChild(
-      criarCelula(
-        "Tipo",
-        formatarTipoRegistro(aluno.tipoRegistro)
-      )
-    );
-
-    linha.appendChild(
-      criarCelula("Ação", criarBotaoAcao(aluno))
-    );
+    linha.appendChild(criarCelula("Ação", criarBotaoAcao(aluno)));
 
     elementos.tabelaCorpo.appendChild(linha);
   });
@@ -405,23 +329,20 @@ function preencherSelectAlunos(alunoSelecionado = null) {
   elementos.selectAluno.appendChild(opcaoInicial);
 
   const alunosSemPresenca = alunosCompletos.filter(
-    (aluno) => !aluno.presencaId
+    (aluno) => !aluno.presencaId,
   );
 
   alunosSemPresenca.forEach((aluno) => {
     const opcao = document.createElement("option");
 
     opcao.value = aluno.id;
-    opcao.textContent =
-      `${aluno.nome} — ${aluno.matricula}`;
+    opcao.textContent = `${aluno.nome} — ${aluno.matricula}`;
 
     elementos.selectAluno.appendChild(opcao);
   });
 
   if (alunoSelecionado) {
-    elementos.selectAluno.value = String(
-      alunoSelecionado.id
-    );
+    elementos.selectAluno.value = String(alunoSelecionado.id);
   }
 }
 
@@ -432,7 +353,7 @@ async function carregarAlunos(busca = "") {
 
   try {
     const dados = await fazerRequisicao(
-      `/supervisor/alunos-hoje?busca=${parametroBusca}`
+      `/supervisor/alunos-hoje?busca=${parametroBusca}`,
     );
 
     if (!busca) {
@@ -446,10 +367,7 @@ async function carregarAlunos(busca = "") {
 
     elementos.tabelaCorpo.replaceChildren();
 
-    exibirMensagemLista(
-      erro.message,
-      "erro"
-    );
+    exibirMensagemLista(erro.message, "erro");
   }
 }
 
@@ -482,19 +400,16 @@ function abrirModalAdicionar(aluno = null) {
 
   elementos.formulario.reset();
 
-  elementos.tituloModal.textContent =
-    "Adicionar presença";
+  elementos.tituloModal.textContent = "Adicionar presença";
 
-  elementos.campoData.value =
-    dataAtualBanco || obterDataLocalIso();
+  elementos.campoData.value = dataAtualBanco || obterDataLocalIso();
 
   elementos.grupoHorario.hidden = true;
   elementos.campoHorario.required = false;
 
   elementos.selectAluno.disabled = false;
 
-  elementos.contadorJustificativa.textContent =
-    "0/200";
+  elementos.contadorJustificativa.textContent = "0/200";
 
   preencherSelectAlunos(aluno);
   limparMensagemModal();
@@ -507,11 +422,9 @@ function abrirModalCorrecao(aluno) {
 
   elementos.formulario.reset();
 
-  elementos.tituloModal.textContent =
-    "Corrigir presença";
+  elementos.tituloModal.textContent = "Corrigir presença";
 
-  elementos.campoData.value =
-    dataAtualBanco || obterDataLocalIso();
+  elementos.campoData.value = dataAtualBanco || obterDataLocalIso();
 
   elementos.grupoHorario.hidden = false;
   elementos.campoHorario.required = true;
@@ -526,14 +439,12 @@ function abrirModalCorrecao(aluno) {
   const opcao = document.createElement("option");
 
   opcao.value = aluno.id;
-  opcao.textContent =
-    `${aluno.nome} — ${aluno.matricula}`;
+  opcao.textContent = `${aluno.nome} — ${aluno.matricula}`;
 
   elementos.selectAluno.appendChild(opcao);
   elementos.selectAluno.disabled = true;
 
-  elementos.contadorJustificativa.textContent =
-    "0/200";
+  elementos.contadorJustificativa.textContent = "0/200";
 
   limparMensagemModal();
   abrirModal();
@@ -544,63 +455,45 @@ async function salvarPresenca(evento) {
 
   limparMensagemModal();
 
-  const justificativa =
-    elementos.campoJustificativa.value.trim();
+  const justificativa = elementos.campoJustificativa.value.trim();
 
   if (!justificativa) {
-    exibirMensagemModal(
-      "A justificativa é obrigatória.",
-      "erro"
-    );
+    exibirMensagemModal("A justificativa é obrigatória.", "erro");
 
     return;
   }
 
-  alterarEstadoBotao(
-    elementos.botaoSalvar,
-    true
-  );
+  alterarEstadoBotao(elementos.botaoSalvar, true);
 
   try {
     let resultado;
 
     if (modoModal === "ADICIONAR") {
-      const alunoId = Number(
-        elementos.selectAluno.value
-      );
+      const alunoId = Number(elementos.selectAluno.value);
 
       if (!Number.isInteger(alunoId) || alunoId <= 0) {
-        exibirMensagemModal(
-          "Selecione um aluno.",
-          "erro"
-        );
+        exibirMensagemModal("Selecione um aluno.", "erro");
 
         return;
       }
 
-      resultado = await fazerRequisicao(
-        "/supervisor/presencas-manuais",
-        {
-          method: "POST",
+      resultado = await fazerRequisicao("/supervisor/presencas-manuais", {
+        method: "POST",
 
-          headers: {
-            "Content-Type": "application/json",
-          },
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-          body: JSON.stringify({
-            alunoId,
-            justificativa,
-          }),
-        }
-      );
+        body: JSON.stringify({
+          alunoId,
+          justificativa,
+        }),
+      });
     } else {
       const horario = elementos.campoHorario.value;
 
       if (!horario) {
-        exibirMensagemModal(
-          "Informe o novo horário.",
-          "erro"
-        );
+        exibirMensagemModal("Informe o novo horário.", "erro");
 
         return;
       }
@@ -618,54 +511,36 @@ async function salvarPresenca(evento) {
             horario,
             justificativa,
           }),
-        }
+        },
       );
     }
 
     await Promise.all([
       carregarResumo(),
-      carregarAlunos(
-        elementos.campoBusca.value.trim()
-      ),
+      carregarAlunos(elementos.campoBusca.value.trim()),
     ]);
 
     fecharModal();
 
-    exibirMensagemLista(
-      resultado.mensagem,
-      "sucesso"
-    );
+    exibirMensagemLista(resultado.mensagem, "sucesso");
   } catch (erro) {
     console.error("Erro ao salvar presença:", erro);
 
-    exibirMensagemModal(
-      erro.message,
-      "erro"
-    );
+    exibirMensagemModal(erro.message, "erro");
   } finally {
-    alterarEstadoBotao(
-      elementos.botaoSalvar,
-      false,
-      "Salvar"
-    );
+    alterarEstadoBotao(elementos.botaoSalvar, false, "Salvar");
   }
 }
 
 async function exportarCsv() {
-  alterarEstadoBotao(
-    elementos.botaoExportar,
-    true
-  );
+  alterarEstadoBotao(elementos.botaoExportar, true);
 
   try {
-    const resposta = await fetch(
-      `${API_URL}/supervisor/relatorio-hoje.csv`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const resposta = await fetch(`${API_URL}/supervisor/relatorio-hoje.csv`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (resposta.status === 401) {
       redirecionarParaLogin();
@@ -682,20 +557,17 @@ async function exportarCsv() {
       }
 
       throw new Error(
-        dados.mensagem ||
-          "Não foi possível exportar o relatório."
+        dados.mensagem || "Não foi possível exportar o relatório.",
       );
     }
 
     const arquivo = await resposta.blob();
-    const enderecoTemporario =
-      URL.createObjectURL(arquivo);
+    const enderecoTemporario = URL.createObjectURL(arquivo);
 
     const link = document.createElement("a");
 
     link.href = enderecoTemporario;
-    link.download =
-      `presencas-${dataAtualBanco || obterDataLocalIso()}.csv`;
+    link.download = `presencas-${dataAtualBanco || obterDataLocalIso()}.csv`;
 
     document.body.appendChild(link);
     link.click();
@@ -703,29 +575,19 @@ async function exportarCsv() {
 
     URL.revokeObjectURL(enderecoTemporario);
 
-    exibirMensagemLista(
-      "Relatório exportado com sucesso.",
-      "sucesso"
-    );
+    exibirMensagemLista("Relatório exportado com sucesso.", "sucesso");
   } catch (erro) {
     console.error("Erro ao exportar CSV:", erro);
 
-    exibirMensagemLista(
-      erro.message,
-      "erro"
-    );
+    exibirMensagemLista(erro.message, "erro");
   } finally {
-    alterarEstadoBotao(
-      elementos.botaoExportar,
-      false,
-      "Exportar CSV"
-    );
+    alterarEstadoBotao(elementos.botaoExportar, false, "Exportar CSV");
   }
 }
 
 function sair() {
   sessionStorage.clear();
-  window.location.replace("/login-teste.html");
+  window.location.replace("/");
 }
 
 async function iniciarPagina() {
@@ -736,27 +598,18 @@ async function iniciarPagina() {
 
   elementos.tabelaCorpo.replaceChildren();
 
-  exibirMensagemLista(
-    "Carregando painel..."
-  );
+  exibirMensagemLista("Carregando painel...");
 
   try {
     await carregarPerfil();
 
-    await Promise.all([
-      carregarResumo(),
-      carregarAlunos(),
-    ]);
+    await Promise.all([carregarResumo(), carregarAlunos()]);
   } catch (erro) {
-    console.error(
-      "Erro ao carregar painel do supervisor:",
-      erro
-    );
+    console.error("Erro ao carregar painel do supervisor:", erro);
 
     exibirMensagemLista(
-      erro.message ||
-        "Não foi possível carregar o painel.",
-      "erro"
+      erro.message || "Não foi possível carregar o painel.",
+      "erro",
     );
   }
 }
@@ -765,62 +618,34 @@ elementos.campoBusca.addEventListener("input", () => {
   clearTimeout(temporizadorBusca);
 
   temporizadorBusca = setTimeout(() => {
-    carregarAlunos(
-      elementos.campoBusca.value.trim()
-    );
+    carregarAlunos(elementos.campoBusca.value.trim());
   }, 350);
 });
 
-elementos.campoJustificativa.addEventListener(
-  "input",
-  () => {
-    elementos.contadorJustificativa.textContent =
-      `${elementos.campoJustificativa.value.length}/200`;
-  }
+elementos.campoJustificativa.addEventListener("input", () => {
+  elementos.contadorJustificativa.textContent = `${elementos.campoJustificativa.value.length}/200`;
+});
+
+elementos.botaoAdicionar.addEventListener("click", () => abrirModalAdicionar());
+
+elementos.botaoAbrirModalMenu.addEventListener("click", () =>
+  abrirModalAdicionar(),
 );
 
-elementos.botaoAdicionar.addEventListener(
-  "click",
-  () => abrirModalAdicionar()
-);
+elementos.botaoFecharModal.addEventListener("click", fecharModal);
 
-elementos.botaoAbrirModalMenu.addEventListener(
-  "click",
-  () => abrirModalAdicionar()
-);
+elementos.botaoCancelarModal.addEventListener("click", fecharModal);
 
-elementos.botaoFecharModal.addEventListener(
-  "click",
-  fecharModal
-);
+elementos.modalOverlay.addEventListener("click", fecharModal);
 
-elementos.botaoCancelarModal.addEventListener(
-  "click",
-  fecharModal
-);
+elementos.formulario.addEventListener("submit", salvarPresenca);
 
-elementos.modalOverlay.addEventListener(
-  "click",
-  fecharModal
-);
-
-elementos.formulario.addEventListener(
-  "submit",
-  salvarPresenca
-);
-
-elementos.botaoExportar.addEventListener(
-  "click",
-  exportarCsv
-);
+elementos.botaoExportar.addEventListener("click", exportarCsv);
 
 elementos.botaoSair.addEventListener("click", sair);
 
 document.addEventListener("keydown", (evento) => {
-  if (
-    evento.key === "Escape" &&
-    !elementos.modal.hidden
-  ) {
+  if (evento.key === "Escape" && !elementos.modal.hidden) {
     fecharModal();
   }
 });

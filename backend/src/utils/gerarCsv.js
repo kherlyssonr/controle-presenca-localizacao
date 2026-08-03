@@ -9,16 +9,10 @@ function escaparCampoCsv(valor) {
 }
 
 export function gerarCsv(cabecalhos, linhas) {
-  const cabecalhoCsv = cabecalhos
-    .map(escaparCampoCsv)
-    .join(";");
+  const cabecalhoCsv = cabecalhos.map(escaparCampoCsv).join(";");
 
   const linhasCsv = linhas
-    .map((linha) =>
-      linha
-        .map(escaparCampoCsv)
-        .join(";")
-    )
+    .map((linha) => linha.map(escaparCampoCsv).join(";"))
     .join("\r\n");
 
   return `\uFEFF${cabecalhoCsv}\r\n${linhasCsv}`;

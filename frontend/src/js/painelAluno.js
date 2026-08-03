@@ -1,5 +1,4 @@
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const token = sessionStorage.getItem("token");
 
@@ -11,29 +10,17 @@ const elementos = {
 
   dataAtual: document.querySelector("#data-atual"),
   statusPresenca: document.querySelector("#status-presenca"),
-  descricaoPresenca: document.querySelector(
-    "#descricao-presenca"
-  ),
+  descricaoPresenca: document.querySelector("#descricao-presenca"),
   iconeStatus: document.querySelector("#icone-status"),
 
-  detalhesPresenca: document.querySelector(
-    "#detalhes-presenca"
-  ),
+  detalhesPresenca: document.querySelector("#detalhes-presenca"),
   dataPresenca: document.querySelector("#data-presenca"),
-  horarioPresenca: document.querySelector(
-    "#horario-presenca"
-  ),
+  horarioPresenca: document.querySelector("#horario-presenca"),
 
-  botaoPresenca: document.querySelector(
-    "#botao-marcar-presenca"
-  ),
-  textoBotaoPresenca: document.querySelector(
-    "#botao-marcar-presenca span"
-  ),
+  botaoPresenca: document.querySelector("#botao-marcar-presenca"),
+  textoBotaoPresenca: document.querySelector("#botao-marcar-presenca span"),
 
-  mensagemPresenca: document.querySelector(
-    "#mensagem-presenca"
-  ),
+  mensagemPresenca: document.querySelector("#mensagem-presenca"),
 
   botaoSair: document.querySelector("#botao-sair"),
 };
@@ -90,9 +77,7 @@ function exibirMensagem(texto, tipo = "") {
   elementos.mensagemPresenca.className = "mensagem-presenca";
 
   if (tipo) {
-    elementos.mensagemPresenca.classList.add(
-      `mensagem-presenca--${tipo}`
-    );
+    elementos.mensagemPresenca.classList.add(`mensagem-presenca--${tipo}`);
   }
 }
 
@@ -106,10 +91,7 @@ function alterarBotaoPresenca(texto, desabilitado) {
   elementos.botaoPresenca.disabled = desabilitado;
 }
 
-async function fazerRequisicao(
-  caminho,
-  opcoes = {}
-) {
+async function fazerRequisicao(caminho, opcoes = {}) {
   const resposta = await fetch(`${API_URL}${caminho}`, {
     ...opcoes,
 
@@ -135,7 +117,7 @@ async function fazerRequisicao(
 
   if (!resposta.ok) {
     const erro = new Error(
-      dados.mensagem || "Não foi possível concluir a operação."
+      dados.mensagem || "Não foi possível concluir a operação.",
     );
 
     erro.status = resposta.status;
@@ -171,11 +153,7 @@ function formatarDataBanco(valor) {
     return valor;
   }
 
-  const dataLocal = new Date(
-    Number(ano),
-    Number(mes) - 1,
-    Number(dia)
-  );
+  const dataLocal = new Date(Number(ano), Number(mes) - 1, Number(dia));
 
   return new Intl.DateTimeFormat("pt-BR").format(dataLocal);
 }
@@ -193,19 +171,16 @@ function preencherDadosUsuario(usuario) {
 
   elementos.nomeAluno.textContent = primeiroNome;
   elementos.nomeMenu.textContent = usuario.nome;
-  elementos.matriculaAluno.textContent =
-    usuario.matricula || "--";
+  elementos.matriculaAluno.textContent = usuario.matricula || "--";
 
-  elementos.avatar.textContent =
-    primeiroNome.charAt(0).toUpperCase();
+  elementos.avatar.textContent = primeiroNome.charAt(0).toUpperCase();
 }
 
 function exibirPresencaNaoRegistrada() {
   presencaRegistrada = false;
 
   elementos.iconeStatus.innerHTML = ICONE_RELOGIO;
-  elementos.statusPresenca.textContent =
-    "Ainda não registrada";
+  elementos.statusPresenca.textContent = "Ainda não registrada";
 
   elementos.descricaoPresenca.textContent =
     "Registre sua presença ao chegar na instituição.";
@@ -219,17 +194,14 @@ function exibirPresencaRegistrada(presenca) {
   presencaRegistrada = true;
 
   elementos.iconeStatus.innerHTML = ICONE_SUCESSO;
-  elementos.statusPresenca.textContent =
-    "Presença registrada";
+  elementos.statusPresenca.textContent = "Presença registrada";
 
   elementos.descricaoPresenca.textContent =
     "Seu registro de presença de hoje foi confirmado.";
 
-  elementos.dataPresenca.textContent =
-    formatarDataBanco(presenca.data);
+  elementos.dataPresenca.textContent = formatarDataBanco(presenca.data);
 
-  elementos.horarioPresenca.textContent =
-    formatarHorario(presenca.horario);
+  elementos.horarioPresenca.textContent = formatarHorario(presenca.horario);
 
   elementos.detalhesPresenca.hidden = false;
 
@@ -247,16 +219,11 @@ async function carregarPerfil() {
 
   preencherDadosUsuario(dados.usuario);
 
-  sessionStorage.setItem(
-    "usuario",
-    JSON.stringify(dados.usuario)
-  );
+  sessionStorage.setItem("usuario", JSON.stringify(dados.usuario));
 }
 
 async function carregarPresencaHoje() {
-  const dados = await fazerRequisicao(
-    "/aluno/presenca-hoje"
-  );
+  const dados = await fazerRequisicao("/aluno/presenca-hoje");
 
   if (dados.presenca.registrada) {
     exibirPresencaRegistrada(dados.presenca);
@@ -269,11 +236,7 @@ async function carregarPresencaHoje() {
 function obterLocalizacao() {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
-      reject(
-        new Error(
-          "Seu navegador não oferece suporte à localização."
-        )
-      );
+      reject(new Error("Seu navegador não oferece suporte à localização."));
 
       return;
     }
@@ -289,47 +252,33 @@ function obterLocalizacao() {
 
       (erro) => {
         if (erro.code === erro.PERMISSION_DENIED) {
-          reject(
-            new Error(
-              "Você precisa permitir o acesso à localização."
-            )
-          );
+          reject(new Error("Você precisa permitir o acesso à localização."));
 
           return;
         }
 
         if (erro.code === erro.POSITION_UNAVAILABLE) {
           reject(
-            new Error(
-              "O dispositivo não conseguiu obter sua localização."
-            )
+            new Error("O dispositivo não conseguiu obter sua localização."),
           );
 
           return;
         }
 
         if (erro.code === erro.TIMEOUT) {
-          reject(
-            new Error(
-              "A obtenção da localização demorou muito."
-            )
-          );
+          reject(new Error("A obtenção da localização demorou muito."));
 
           return;
         }
 
-        reject(
-          new Error(
-            "Não foi possível obter sua localização."
-          )
-        );
+        reject(new Error("Não foi possível obter sua localização."));
       },
 
       {
         enableHighAccuracy: true,
         timeout: 15000,
         maximumAge: 0,
-      }
+      },
     );
   });
 }
@@ -347,18 +296,15 @@ async function marcarPresenca() {
 
     alterarBotaoPresenca("Registrando...", true);
 
-    const dados = await fazerRequisicao(
-      "/aluno/presencas",
-      {
-        method: "POST",
+    const dados = await fazerRequisicao("/aluno/presencas", {
+      method: "POST",
 
-        headers: {
-          "Content-Type": "application/json",
-        },
+      headers: {
+        "Content-Type": "application/json",
+      },
 
-        body: JSON.stringify(localizacao),
-      }
-    );
+      body: JSON.stringify(localizacao),
+    });
 
     exibirMensagem(dados.mensagem, "sucesso");
 
@@ -379,7 +325,7 @@ async function marcarPresenca() {
 
 function sair() {
   sessionStorage.clear();
-  window.location.replace("/login-teste.html");
+  window.location.replace("/");
 }
 
 async function iniciarPagina() {
@@ -400,15 +346,12 @@ async function iniciarPagina() {
 
     exibirMensagem(
       erro.message || "Não foi possível carregar seus dados.",
-      "erro"
+      "erro",
     );
   }
 }
 
-elementos.botaoPresenca.addEventListener(
-  "click",
-  marcarPresenca
-);
+elementos.botaoPresenca.addEventListener("click", marcarPresenca);
 
 elementos.botaoSair.addEventListener("click", sair);
 

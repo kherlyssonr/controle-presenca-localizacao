@@ -8,7 +8,7 @@ export function calcularDistancia(
   latitudeOrigem,
   longitudeOrigem,
   latitudeDestino,
-  longitudeDestino
+  longitudeDestino,
 ) {
   const coordenadas = [
     latitudeOrigem,
@@ -18,7 +18,7 @@ export function calcularDistancia(
   ];
 
   const possuiCoordenadaInvalida = coordenadas.some(
-    (coordenada) => !Number.isFinite(coordenada)
+    (coordenada) => !Number.isFinite(coordenada),
   );
 
   if (possuiCoordenadaInvalida) {
@@ -46,12 +46,10 @@ export function calcularDistancia(
   const latitudeOrigemRad = grausParaRadianos(latitudeOrigem);
   const latitudeDestinoRad = grausParaRadianos(latitudeDestino);
 
-  const diferencaLatitude = grausParaRadianos(
-    latitudeDestino - latitudeOrigem
-  );
+  const diferencaLatitude = grausParaRadianos(latitudeDestino - latitudeOrigem);
 
   const diferencaLongitude = grausParaRadianos(
-    longitudeDestino - longitudeOrigem
+    longitudeDestino - longitudeOrigem,
   );
 
   const calculo =
@@ -60,10 +58,7 @@ export function calcularDistancia(
       Math.cos(latitudeDestinoRad) *
       Math.sin(diferencaLongitude / 2) ** 2;
 
-  const angulo = 2 * Math.atan2(
-    Math.sqrt(calculo),
-    Math.sqrt(1 - calculo)
-  );
+  const angulo = 2 * Math.atan2(Math.sqrt(calculo), Math.sqrt(1 - calculo));
 
   return RAIO_TERRA_METROS * angulo;
 }

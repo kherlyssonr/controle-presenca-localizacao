@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+<title>Logo Presença Inteligente</title>
+<defs>
+  <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#35F3A4"/>
+    <stop offset="1" stop-color="#00D977"/>
+  </linearGradient>
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="12" result="blur"/>
+    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+<path filter="url(#glow)" fill="url(#green)" d="M256 44c-91.7 0-166 74.3-166 166 0 124.1 166 258 166 258s166-133.9 166-258c0-91.7-74.3-166-166-166zm0 292c-69.6 0-126-56.4-126-126S186.4 84 256 84s126 56.4 126 126-56.4 126-126 126z"/>
+<circle cx="256" cy="210" r="91" fill="#061524"/>
+<path d="M205 209l34 34 69-78" fill="none" stroke="url(#green)" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

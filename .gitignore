@@ -3,5 +3,8 @@ node_modules/
 dist/
 .vscode/
 .DS_Store
+backend/.env
+frontend/.env
+.git-auto-commit/
 relatorio-*.csv
 presencas-*.csv
