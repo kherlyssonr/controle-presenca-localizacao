@@ -1,39 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="src/css/login.css">
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="description" content="Login do Sistema de Controle de Presença." />
+
+    <link rel="icon" type="image/png" href="src/assets/images/favicon-128.png" />
+
+    <link rel="stylesheet" href="src/css/login.css" />
+
     <title>Login | Sistema de Presença</title>
 </head>
+
 <body>
     <main class="login">
         <section class="login_card">
             <div class="login_header">
-                <img src="src/assets/images/favicon-128.png" alt="logo presenca">
-                <h1 class="login_title">Sistema de Presença</h1>
-                <p class="login_subtitle">Faça login para continuar</p>
+                <div class="development-badge">
+                    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L14.2 7.1L19.7 7.6L15.5 11.3L16.8 16.7L12 13.8L7.2 16.7L8.5 11.3L4.3 7.6L9.8 7.1L12 2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+
+                        <path d="M9 20H15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                    </svg>
+
+                    <span>Sistema em desenvolvimento</span>
+                </div>
+
+                <img src="src/assets/images/favicon-128.png" alt="Logo do Sistema de Presença" class="login_logo" />
+
+                <h1 class="login_title">
+                    Sistema de Presença
+                </h1>
+
+                <p class="login_subtitle">
+                    Faça login para continuar
+                </p>
             </div>
-            <form class="login_form">
+
+            <form id="form-login" class="login_form" novalidate>
                 <div class="form_group">
-                    <label for="email">Email</label>
+                    <label for="email">E-mail</label>
+
                     <div class="input-wrapper">
-                        <img src="src/assets/icons/icon mail.svg" alt="icone de email" class="input-icon">
-                        <input id="email" type="email" placeholder="Digite seu email" required autocomplete="email">
+                        <img src="src/assets/icons/icon mail.svg" alt="" aria-hidden="true" class="input-icon" />
+
+                        <input id="email" name="email" type="email" placeholder="Digite seu e-mail" autocomplete="email" required />
                     </div>
                 </div>
+
                 <div class="form_group">
-                    <label for="password">Senha</label>
+                    <label for="senha">Senha</label>
+
                     <div class="input-wrapper">
-                        <img src="src/assets/icons/icon lock.svg" alt="icone de cadeado" class="input-icon">
-                        <input id="password" type="password" placeholder="**********" required autocomplete="password">
+                        <img src="src/assets/icons/icon lock.svg" alt="" aria-hidden="true" class="input-icon" />
+
+                        <input id="senha" name="senha" type="password" placeholder="Digite sua senha" autocomplete="current-password" required />
+
+                        <button id="botao-mostrar-senha" class="password-toggle" type="button" aria-label="Mostrar senha" aria-pressed="false">
+                            Mostrar
+                        </button>
                     </div>
-                    <div class="login-error"><p>E-mail ou senha incorretos</p></div>
                 </div>
-                <button type="submit" class="login_button">Entrar</button>
-                <p class="login_register">Não possui uma conta?<a href="#">Criar conta</a></p>
+
+                <div id="mensagem-login" class="login-message" role="status" aria-live="polite" hidden></div>
+
+                <button id="botao-entrar" type="submit" class="login_button">
+                    Entrar
+                </button>
+
+                <p class="login_register">
+                    As contas de acesso são fornecidas pela instituição.
+                </p>
             </form>
+            <footer class="login_environment">
+                <span class="login_environment-indicator" aria-hidden="true"></span>
+
+                <p>
+                    Ambiente de testes da versão
+                    <strong>v1.0.0</strong>
+                </p>
+            </footer>
         </section>
     </main>
+
+    <script type="module" src="src/js/login.js"></script>
 </body>
-</html>

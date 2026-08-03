@@ -3,6 +3,8 @@ node_modules/
 dist/
 .vscode/
 .DS_Store
-
-# Git Auto Commit Generator learned data
+backend/.env
+frontend/.env
 .git-auto-commit/
+relatorio-*.csv
+presencas-*.csv
